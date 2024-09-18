@@ -13,6 +13,11 @@ repositories {
     mavenCentral()
 }
 sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+    }
     customJava {
         java {
             srcDir 'src/customJava/java'
@@ -32,7 +37,7 @@ dependencies {
 tasks.register('compileCustomJava', JavaCompile) {
     source=sourceSets.customJava.java
     classpath = sourceSets.customJava.compileClasspath
-    destinationDirectory = file("/classes/java/customJava")
+    destinationDirectory = file("${project.buildDir}/classes/customJava/java")
 }
 
 //tasks.register('compileCustomKotlin', KotlinCompile) {
