@@ -1,6 +1,9 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.8.10'
+    id "org.sonarqube" version "5.0.0.4638"
 }
 
 group = "org.example"
@@ -26,6 +29,27 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.11.0")
 }
 
+tasks.register('compileCustomJava', JavaCompile) {
+    source=sourceSets.customJava.java
+    classpath = sourceSets.customJava.compileClasspath
+    destinationDirectory = file("/classes/java/customJava")
+}
+
+//tasks.register('compileCustomKotlin', KotlinCompile) {
+//    source = sourceSets.customKotlin.kotlin
+//    classPath = sourceSets.customKotlin.compileClasspath
+//    destinationDirectory = file("/classes/kotlin/customKotlin")
+//
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//    }
+//}
+
+compileJava.dependsOn 'compileCustomJava'
+//compileKotlin.dependsOn 'compileCustomKotlin'
+
 tasks.named('jar') {
     from sourceSets.main.output
+    from sourceSets.customJava.output
+//    from sourceSets.customKotlin.output
 }
