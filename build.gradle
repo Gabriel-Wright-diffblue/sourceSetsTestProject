@@ -15,29 +15,18 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDir 'src/main/java'
+            srcDirs('src/main/java', 'src/customJava/java')
         }
     }
-    customJava {
-        java {
-            srcDir 'src/customJava/java'
-        }
-    }
-    customKotlin {
-        kotlin {
-            srcDir 'src/customKotlin/kotlin'
-        }
-    }
+//    customKotlin {
+//        kotlin {
+//            srcDir 'src/customKotlin/kotlin'
+//        }
+//    }
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.11.0")
-}
-
-tasks.register('compileCustomJava', JavaCompile) {
-    source=sourceSets.customJava.java
-    classpath = sourceSets.customJava.compileClasspath
-    destinationDirectory = file("${project.buildDir}/classes/customJava/java")
 }
 
 //tasks.register('compileCustomKotlin', KotlinCompile) {
@@ -50,11 +39,11 @@ tasks.register('compileCustomJava', JavaCompile) {
 //    }
 //}
 
-compileJava.dependsOn 'compileCustomJava'
+//compileJava.dependsOn 'compileCustomJava'
 //compileKotlin.dependsOn 'compileCustomKotlin'
 
 tasks.named('jar') {
     from sourceSets.main.output
-    from sourceSets.customJava.output
+//    from sourceSets.customJava.output
 //    from sourceSets.customKotlin.output
 }
